@@ -19,13 +19,13 @@ class ByteSentence {
 	/*
 	 * Variables
 	 */
-	public $cube = array();
+	public $cubes = array();
 	public $Yfunc = array();
 
 	private $Xvar;
 	private $input;
 	private $cycle = 1;
-	private $sub_cube = array();
+	private $sub_cubes = array();
 	/*
 	 * methods
 	 */
@@ -34,14 +34,14 @@ class ByteSentence {
 			$array = $this->random();
 		}
 		else {
-			$array = explode (" ", $input);
+			$array = $this->multy_explode(array(" ", ",", ".", "|", "/", "+", "-"), $input);
 		}
 		$array = $this->prepare($array);
 		$this->Xvar = $this->var_count($this->find_max($array));
 		$this->Yfunc = $array;
 
 		foreach ($array as $key => $value) {
-			$this->cube[0][] = $this->binary($value);
+			$this->cubes[0][] = $this->binary($value);
 		}
 		unset($array);
 	}
@@ -81,6 +81,12 @@ class ByteSentence {
 		return false;
 	}
 
+	private function multy_explode($delimiters,$string) {
+		$ready = str_replace($delimiters, $delimiters[0], $string);
+		$launch = explode($delimiters[0], $ready);
+		return  $launch;
+	}
+
 	private function random () {
 		srand();
 		$array = array();
@@ -102,45 +108,81 @@ class ByteSentence {
 		}
 		return $binary;
 	}
+
 	/**
-	 
-	 * Помогите сделать это
-	 
+	 * @return bool
 	 */
-	/**
-	 
-	 ТВОЯ РАБОТА, ЭЛДИ!
-
-	 */ 
-	private function make_cubes() {
-		$from_array = $this->cube[0];
-		$m = count($from_array);
-		for($i = 0; $i < $m; $i++) {
-
+	private function isGreyCode(/*string*/ $a, /*string*/ $b) {
+		$flag = 0;
+		for ($i = 0; $i < strlen($a); $i++) {
+			if($a[$i] != $b[$i]) {
+				$flag++;
+			}
 		}
+		return ($flag==1);
+	}
+
+	/**
+	 * @return string $temp
+	 */
+	private function replace_bit(/*string*/ $a, /*string*/ $b) {
+		$temp = "";
+		for($i = 0; $i < $this->Xvar; $i++) {
+			if($a[$i] != $b[$i]) {
+				$temp .= "X";
+			}
+			else {
+				$temp .= $a[$i];
+			}
+		}
+		return $temp;
+	}
+
+
+	private function in_array($array, $string) {
+		for ($int = 0; $int < count($array); $int++)
+			if($array[$int] == $string) 
+				return true;
+		return false;
+	}
+
+	private function make_cube(/*array*/ $cycle) {
+		$array = $this->make_sub_cube($cycle);
+		
+		$this->cycle++;
+		return $cube;
+	}
+
+	private function make_cubes() {
+		$cubes = array();
+		for($i = 0; $i < $this->cycle; $i++) {
+			$cubes[] = $this->make_cube($i);
+		}
+		$this->$cubes = $cubes;
+		$this->make_sub_cubes();
+	}
+
+	private function make_sub_cube ($cycle) {
+		$temp_cube = $this->cubes[$cycle];
+		for($j = 0; $j <= $this->Xvar; $j++) {
+			$count = 0;
+			foreach ($temp_cube as $key => $value) {
+				$var = substr_count($value, "1");
+				if ($var == $j) {
+					$count++;
+					$sub_cube[$j][] = $value;
+				}
+			}
+		}
+		return $sub_cube;
 	}
 
 	private function make_sub_cubes() {
-		$sub_cube = array();
+		$sub_cubes = array();
 		for ($i = 0; $i < $this->cycle; $i++) {
-			$from_array = $this->cube[$i];
-			$to_array = array();
-			foreach ($from_array as $key => $value) {
-				$array = array();
-				$length = strlen($value);
-				for ($j = 0; $j < $length; $j++) {
-					$array[] = $value[$i];
-				}
-				$to_array[] = $array;
-				unset($array);
-			}
-
-
-
-
-			$sub_cube[] = $array;
+			$sub_cubes[] = $this->make_sub_cube($i);
 		}
-		$this->sub_cube = $sub_cube;
+		$this->sub_cubes = $sub_cubes;
 	}
 
 	/*
@@ -161,7 +203,6 @@ class ByteSentence {
 	}
 
 	public function write_table () {
-		#$output = "<div class='truth-table'>\n\t<table class='mytable'>\n\t<caption>Таблица истинности</caption>\n\t<thead><tr>\n\t<td>#</td>\n";
 		$output = "<div class='truth-table'>\n\t<h3>Таблица истинности</h3>
 		<table class='mytable'>\n\t<thead><tr>\n\t<td>#</td>\n";
 		$index = 0;
@@ -195,9 +236,9 @@ class ByteSentence {
 		$string = "";
 		$m = strlen($binary);
 		for ($key = 0; $key < $m; $key++) {
-			if ($binary[$key] === "0") $string .= "-";
+			if ($binary[$key] === "0") $string .= "&#772;";
 			$string .= "x<sub>$key</sub>";
-			if ($key != $m-1) $string .= "*";
+			if ($key != $m-1) $string .= "&and;";
 		}
 		return $string;
 	}
@@ -206,21 +247,17 @@ class ByteSentence {
 		$string = "";
 		$m = strlen($binary);
 		for ($key = 0; $key < $m; $key++) {
-			if ($binary[$i] == "0") $string .= "-";
+			if ($binary[$i] == "0") $string .= "&#772;";
 			$string .= "x<sub>$key</sub>";
-			if ($key != $m-1) $string .= "*";
+			if ($key != $m-1) $string .= "&or;";
 		}
 		return $string;
 	}
 
 	/**
 	 * 
-	 
 	 Работа для Саламбека
-
 	*Его надо сделать универсальным. считай, что принимаешь ассоциативный массив и выводишь его, согласно его номеру. Вторая функция - вызывает предыдущую функцию через цикл.
-
-
 	короче, я это сам уже сделал
 	 */
 
@@ -229,7 +266,7 @@ class ByteSentence {
 		#include style for cube as cube-0, cube-1, cube-2 etc;
 		$output = "<div class='cubediv'>\n\t
 		<h3>Куб $cycle</h3>\n <ul class='cube' style=".$this->CUBE[$cycle%3].">\n";
-		$array = $this->cube[$cycle];
+		$array = $this->cubes[$cycle];
 		foreach ($array as $key => $value) {
 			$output .= "\t<li>$value</li>\n";
 		}
@@ -242,31 +279,29 @@ class ByteSentence {
 		/*
 		Вызывает функцию
 		 */
-		for($i = 0; $i < $this->cycle; $i++)
-			$output .= write_cube($i);
-		$output .= "";
+		$this->make_sub_cubes() ;
+		for($i = 0; $i < $this->cycle; $i++) {
+			$output .= $this->write_cube($i);
+			$output .= $this->write_sub_cube($i);
+		}
+		return $output;
+	}
 
+	public function write_sub_cube($cycle) {
+		$output = "<div class='cubediv'> \n";
+		$temp = $this->sub_cubes[$cycle];
+		foreach ($temp as $key => $value) {
+			$output .= "<h3>K$cycle<sub>$key</sub></h3>\n";
+			$output .= "<ul class='cube' style=".$this->CUBE[$key%3].">\n";
+			foreach ($value as $index => $word) {
+				$output .= "<li>$word</li>\n";
+			}
+			$output .= "</ul>";
+		}
+		$output .= "</div>";
 		return $output;
 	}
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>

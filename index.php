@@ -24,7 +24,7 @@
 	<div id="page">
 		<header>
 			<h1>Метод минимизации Квайна—Мак-Класки</h1>
-			<hr>
+			<div style="border-top: 1px solid #ddd">
 			<p>
 			<b>Метод Куайна—Мак-Класки </b>— табличный метод минимизации булевых функций, предложенный Уиллардом Куайном и усовершенствованный Эдвардом Мак-Класки. Представляет собой попытку избавиться от недостатков метода Куайна.
 			</p>
@@ -40,16 +40,29 @@
 		<div id="input">
 			<form method="post">
 				<p><b>Введите строку с числами: </b><input type="text" name="input_string" style="width: 99.5%">
+				<input type="submit" value="Выполнить" style="float: right; width: 100px; height: 50px; font-style: italic;">
 				<p><i>Чтобы все сгенерировалось случайно, оставьте строку пустой</i></p>
-				<input type="submit" value="Выполнить"></p>
+				
+				<p>Вывести таблицу истинности
+				<input type="checkbox" name="write-table">
+				<p>Вывести минтермы
+				<input type="checkbox" name="write-minterm" >
+				<p>Вывести кубы
+				<input type="checkbox" name="write-cube" checked="checked">
+				<p>Вывести конечную функцию
+				<input type="checkbox" name="write-min-func">
+				
+				</p>
 			</form>
 		</div>
 		<div id="content">
 			<?php include_once 'ByteClass.php';
 			$obj = new ByteSentence($_POST['input_string']);
 			echo $obj->write_function();
-			echo $obj->write_table();
-			echo $obj->write_cube(0);
+			if($_POST['write-table'] == "on")
+				echo $obj->write_table();
+			if($_POST['write-cube'] == "on")
+				echo $obj->write_all_cubes();
 			// echo $obj->write_cube(1);
 			?>
 		</div>
