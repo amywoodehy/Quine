@@ -1,0 +1,153 @@
+body {
+	font-family: "Open Sans", Verdana, Geneva, sans-serif;
+	margin: 0;
+
+	border-collapse: collapse;
+	min-height: 1000px;
+}
+* {
+	border-radius: 3px;
+}
+
+h3 {
+	font-style: italic;
+}
+
+aside {
+	position: fixed;
+	height: 100%;
+	width: 100px;
+	display: inline-block;
+	background: #666;
+}
+
+#page-wrapper {
+	display: block;
+	max-width: 1200px;
+	min-width: 400px;
+	overflow: scroll;
+	margin: 0 auto;
+	padding: 5px;
+}
+
+#page {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	border-top-right-radius: 100px;
+	box-shadow: 0 10px 20px #aaa;
+	z-index: 100;
+}	
+
+header {
+	font-style: italic;
+	margin: 0 30px;
+	color: #333;
+}
+
+footer {
+	font-size: 0.7em;
+	text-align: center;
+	margin: 10px;
+}
+footer img {
+	border-radius: 20px;
+}
+footer img.left {
+	float: left;
+	width: 100px;
+	height: 100px;
+}
+footer img.right {
+	float: right;
+	width: 100px;
+	height: 100px;
+}
+
+
+#input {
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	margin: 10px;
+}
+
+#content {
+	margin: 10px;
+}
+
+#info {
+	border-bottom: 1px solid #ddd; 
+}
+
+.truth-table {
+	display: inline-block;
+	vertical-align: top;
+	border-right: 1px solid #ddd; 
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.truth-table .mytable {
+	font-family: Consolas;
+	min-width: 100px;
+	min-height: 50px;
+	margin: 10px;
+	border-collapse: collapse;
+	display: block;
+}
+
+table.mytable tr td {
+	min-width: 2em;
+	min-height: 2em;
+	border: 1px solid black;
+	text-align: center;
+}
+
+table.mytable thead tr:first-child {
+	background: #99d;
+}
+
+table.mytable tbody tr.selected {
+	background: #afa;
+}
+
+table.mytable tr td:first-child {
+	background: #99d;
+}
+
+table.mytable tr td:last-child {
+	background: #d99;
+}
+
+div.truth-table ol {
+	min-width: 50px;
+	max-width: 300px;
+	padding: 5px;
+	text-decoration: none;
+	/*overflow: hidden;*/
+}
+
+.cubediv {
+	display: inline-block;
+	vertical-align: top;
+	padding: 0 10px;
+	border-right: 1px solid #ddd; 
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.cube {
+	font-family: Consolas;
+	display: block;
+	list-style: none;
+	margin: 10px;
+	padding: 10px;
+	min-width: 40px;
+	max-width: 400px;
+	text-align: center;
+}
+
+#input form input[type="submit"] {
+	border-radius: 2px;
+	border-top-right-radius: 20px;
+	background: #ddd;
+}
